@@ -25,9 +25,10 @@ local function toggle_buf(conf)
     toggle_state.win = nil
   end
 
-  -- If no window tracked, get current window
+  -- If no window tracked, create window
   if toggle_state.win == nil then
-    toggle_state.win = vim.api.nvim_get_current_win()
+		 vim.cmd("vsplit | wincmd l")
+	   toggle_state.win = vim.api.nvim_get_current_win()
   end
 
   -- Update state type
@@ -41,9 +42,10 @@ local function toggle_buf(conf)
 
   -- Create new buffer
   local buf = vim.api.nvim_create_buf(false, true)
-  open_bufs[conf.type] = buf
   vim.api.nvim_buf_set_option(buf, "filetype", conf.type)
   vim.api.nvim_buf_set_option(buf, "swapfile", false)
+
+  open_bufs[conf.type] = buf
 
   vim.api.nvim_win_set_buf(toggle_state.win, open_bufs[conf.type])
 
