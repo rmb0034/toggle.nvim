@@ -40,7 +40,11 @@ local function toggle_buf(conf)
   end
 
   -- Create new buffer
-  open_bufs[conf.type] = vim.api.nvim_create_buf(false, true)
+  local buf = vim.api.nvim_create_buf(false, true)
+  open_bufs[conf.type] = buf
+  vim.api.nvim_buf_set_option(buf, "filetype", conf.type)
+  vim.api.nvim_buf_set_option(buf, "swapfile", false)
+
   vim.api.nvim_win_set_buf(toggle_state.win, open_bufs[conf.type])
 
   -- Run startup function if provided
